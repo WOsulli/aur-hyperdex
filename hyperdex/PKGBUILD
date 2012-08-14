@@ -1,0 +1,33 @@
+# Maintainer: Serge Zirukin <ftrvxmtrx@gmail.com>
+
+pkgname=hyperdex
+pkgver=0.4.0
+pkgrel=1
+pkgdesc="A Searchable Distributed Key-Value Store"
+arch=('x86_64')
+url="http://hyperdex.org/"
+license=('BSD')
+groups=()
+depends=('libe' 'libpo6' 'busybee' 'cityhash' 'google-glog' 'python2')
+makedepends=()
+checkdepends=()
+optdepends=()
+provides=()
+conflicts=()
+replaces=()
+backup=()
+options=()
+source=("http://hyperdex.org/src/${pkgname}-${pkgver}.tar.gz")
+md5sums=('f57645689f3b3ee34fccdc4529840809')
+
+build() {
+  cd "$srcdir/$pkgname-$pkgver"
+  export PYTHON=python2.7
+  ./configure --enable-python-bindings --prefix=/usr
+  make || return 1
+}
+
+package() {
+  cd "$srcdir/$pkgname-$pkgver"
+  make DESTDIR="$pkgdir/" install
+}
